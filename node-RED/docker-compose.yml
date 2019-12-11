@@ -1,0 +1,22 @@
+################################################################################
+# docker-compose -p myNoderedProject up
+################################################################################
+version: "3.7"
+
+services:
+  node-red:
+    image: nodered/node-red:latest
+    environment:
+      - TZ=EST5EDT
+    ports:
+      - "1880:1880"
+    networks:
+      - node-red-net
+    volumes:
+      - node-red-data
+
+volumes:
+  node-red-data:
+
+networks:
+  node-red-net:

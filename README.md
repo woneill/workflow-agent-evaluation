@@ -4,9 +4,9 @@ Hackathon project evaluating various OSS tools that work similar to Yahoo Pipes,
 
 Alas poor Yahoo Pipes! I used to use them, Horatio...
 
-Sure, you can use IFTTT or Zapier for making workflows like good old Yahoo Pipes but there's nothing better than running a service yourself where YOU get to decide when to pull the plug on it! This project will be a quick comparison of some alternatives that can be run locally. I'm thinking of [Huginn](https://github.com/huginn/huginn), [Node-Red](https://nodered.org/), [n8n.io](https://n8n.io/), [Beehive](https://github.com/muesli/beehive).... any others?
+Sure, you can use IFTTT or Zapier for making workflows like good old Yahoo Pipes but there's nothing better than running a service yourself where YOU get to decide when to pull the plug on it! This project will be a quick comparison of some alternatives that can be run locally. I'm thinking of [Huginn](https://github.com/huginn/huginn), [Node-RED](https://nodered.org/), [n8n.io](https://n8n.io/), [Beehive](https://github.com/muesli/beehive).... any others?
 
-## Huginn
+## [Huginn](https://github.com/huginn/huginn)
 
 ### Setup
 
@@ -31,3 +31,19 @@ Next:
 ### Overall impression
 
 Setup was easy and being able to export/import credentials and scenarios was nice. But it feels pretty limited as a multi-user approach. You _can_ make multiple users but I found lots of Github issues about naming conflicts between agents and scenarios. As a single user tool, though, the wide range of built in agents feels pretty powerful.
+
+## [Node-RED](https://nodered.org/)
+
+### Setup
+
+1. `cd nodered; docker-compose up`
+1. Open Node-RED in the browser http://localhost:1880/
+
+### Demonstration App
+
+I tried recreating the weather report workflow from Huginn but this tool is just too low level to make it work. The nodes for making HTML requests and parsing the responses are barebones. As a result, despite it having a nice web UI for creating and linking nodes together, it feels like it'd be simpler to do a `curl | jq` or use something like Python's [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/) library.
+
+### Overall impression
+
+Since I gave up on the tool pretty quickly I don't think it's suitable as an IFTTT/Zapier/Yahoo Pipes replacement. It'd be more useful as a teaching tool about low level data transformations
+
