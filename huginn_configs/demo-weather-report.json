@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "name": "Demo Weather Report",
+  "description": "Check Dark Sky at 4pm, check to see if rain or snow is in the weather report and send a slack notice if so.",
+  "source_url": false,
+  "guid": "ee4299225e6531c401a8bbbce0771ce4",
+  "tag_fg_color": "#ffffff",
+  "tag_bg_color": "#5bc0de",
+  "icon": "cloud",
+  "exported_at": "2019-12-11T20:03:39Z",
+  "agents": [
+    {
+      "type": "Agents::TriggerAgent",
+      "name": "Snow or Rain Notifier",
+      "disabled": false,
+      "guid": "1271b72183d5fea528bf83af14d1b293",
+      "options": {
+        "expected_receive_period_in_days": "2",
+        "rules": [
+          {
+            "type": "regex",
+            "value": "snow|rain",
+            "path": "conditions"
+          }
+        ],
+        "message": "Just so you know, it looks like '{{conditions}}' tomorrow in NYC"
+      },
+      "keep_events_for": 3600,
+      "propagate_immediately": true
+    },
+    {
+      "type": "Agents::SlackAgent",
+      "name": "Hackthon",
+      "disabled": false,
+      "guid": "7558fcefab721995069b0d3bc5d39fcf",
+      "options": {
+        "webhook_url": "{% credential slack_webhook %}",
+        "channel": "#hackathon-workflow-eval",
+        "username": "Huginn",
+        "icon": "",
+        "message": "{{message}}"
+      },
+      "propagate_immediately": true
+    },
+    {
+      "type": "Agents::WeatherAgent",
+      "name": "NYC Weather Agent",
+      "disabled": false,
+      "guid": "bdae6dfdf9d01a123ddd513e695fd466",
+      "options": {
+        "location": "40.7128,-74.0060",
+        "api_key": "{% credential DarkSky_API_key %}"
+      },
+      "schedule": "4pm",
+      "keep_events_for": 3600
+    }
+  ],
+  "links": [
+    {
+      "source": 0,
+      "receiver": 1
+    },
+    {
+      "source": 2,
+      "receiver": 0
+    }
+  ],
+  "control_links": [
+
+  ]
+}
