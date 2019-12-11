@@ -1,0 +1,3 @@
+[submodule "huginn"]
+	path = huginn
+	url = https://github.com/woneill/huginn.git
