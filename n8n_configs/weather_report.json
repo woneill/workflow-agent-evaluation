@@ -1,0 +1,147 @@
+{
+  "name": "weather report",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "5DayForecast",
+        "cityName": "New York"
+      },
+      "name": "OpenWeatherMap",
+      "type": "n8n-nodes-base.openWeatherMap",
+      "typeVersion": 1,
+      "position": [
+        520,
+        290
+      ],
+      "credentials": {
+        "openWeatherMapApi": "OpenWeatherMap"
+      }
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "city_name",
+              "value": "={{$node[\"OpenWeatherMap\"].data[\"city\"][\"name\"]}}"
+            },
+            {
+              "name": "weather_main",
+              "value": "={{$node[\"OpenWeatherMap\"].data[\"list\"][6][\"weather\"][0][\"main\"]}}"
+            },
+            {
+              "name": "weather_description",
+              "value": "={{$node[\"OpenWeatherMap\"].data[\"list\"][6][\"weather\"][0][\"description\"]}}"
+            }
+          ]
+        }
+      },
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        740,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyWeek",
+              "hour": 16,
+              "weekday": "5"
+            }
+          ]
+        }
+      },
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        280,
+        510
+      ]
+    },
+    {
+      "parameters": {
+        "channel": "hackathon-workflow-eval",
+        "text": "=The weather for {{$node[\"Set\"].data[\"city_name\"]}} tomorrow at this time will be {{$node[\"Set\"].data[\"weather_description\"]}}",
+        "username": "n8n",
+        "attachments": [],
+        "otherOptions": {}
+      },
+      "name": "Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        990,
+        290
+      ],
+      "credentials": {
+        "slackApi": "TpT"
+      }
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "OpenWeatherMap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenWeatherMap": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "OpenWeatherMap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "id": "1"
+}

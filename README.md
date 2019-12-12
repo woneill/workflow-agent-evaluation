@@ -47,3 +47,25 @@ I tried recreating the weather report workflow from Huginn but this tool is just
 
 Since I gave up on the tool pretty quickly I don't think it's suitable as an IFTTT/Zapier/Yahoo Pipes replacement. It'd be more useful as a teaching tool about low level data transformations
 
+## [n8n.io](https://n8n.io/)
+
+### Setup
+
+1. `cd n8n/docker/compose/withPostgres; docker-compose up`
+1. Open n8n in the browser http://localhost:5678/
+1. Log in to your instance using the username `changeUser` and password `changePassword`
+    * These values are the defaults in [.env](n8n/docker/compose/withPostgres/.env)
+
+### Demonstration App
+
+Once again I tried recreating the weather report workflow from Huginn. It wasn't obvious at first how to use data from other nodes in the workflow. Initially I thought I'd have to manually create macros such as `{{$node["Set"].data["city_name"]}}` but then I learned that setting parameters to be "expressions" made it easy to drill down via a UI to the parsed JSON fields from other nodes.
+
+To get started, you'll need to create credentials for OpenWeatherMap and Slack. There doesn't appear to be a way to import/export these.
+
+Next, in the browser UI go to Workflows -> Import from File and chose [weather_report.json](n8n_configs/weather_report.json). You'll then need to connect the "Start" node to OpenWeatherMap in order to get the "Execute Workflow" to run outside of the cron schedule.
+
+### Overall impression
+
+Just like Huginn, setup was easy and being able to export/import workflows was nice. I'm disappointed that you couldn't do the same with credentials, though, since their references end up hardcoded in the workflow's JSON.
+
+As a single user tool the wide range of built in agents feels pretty powerful. I don't think that there's even an option for logging in as a different user than the default so this wouldn't be useful as a multi-user tool.

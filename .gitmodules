@@ -1,3 +1,6 @@
 [submodule "huginn"]
 	path = huginn
 	url = https://github.com/woneill/huginn.git
+[submodule "n8n"]
+	path = n8n
+	url = https://github.com/woneill/n8n.git
